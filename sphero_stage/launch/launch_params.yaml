@@ -1,4 +1,6 @@
-map_name: 'empty_10x10'     # Base name of the map
+# map_name: 'test_10x10'     # Base name of the map
+map_name: 'hard_maze_10x10'  # 'random_10x10'        # Base name of the map
+# map_name: 'empty_10x10'     # Base name of the map
 num_of_robots: 2            # Number of robots to spawn
 distribution: 'line'        # One of the options from 'distribution_list'
 
@@ -6,14 +8,27 @@ distribution_list:
   circle:                   # If selected, this option will spawn 'num_of_robots'
     center_x: 0             # robots evenly distributed in a circle centered in
     center_y: 0             # 'center_x' and 'center_y' with radius of 'radius'.
-    radius: 1
+    radius: 0.4
 
   line:
     center_x: 0             # If selected, this option will spawn 'num_of_robots'
     center_y: 0             # robots evenly distributed in a straight line
-    separation: 1           # centered in 'center_x' and 'center_y' with 
+    separation: 0.5           # centered in 'center_x' and 'center_y' with 
     direction: 'vertical'   # 'separation' meters between them. You can choose
                             # between 'vertical' or 'horizontal' direction.
+  grid:
+    center_x: 0             # If selected, this option will spawn 'num_of_robots'
+    center_y: 0             # robots evenly distributed in a straight line
+    separation: 0.5           # centered in 'center_x' and 'center_y' with 
 
-  # other:                  # If you'd like to use an exact formation, you can
-                            # do so by specifying it directly in the .world file.
+  spiral:
+    center_x: 0             # If selected, this option will spawn 'num_of_robots'
+    center_y: 0             # robots evenly distributed in a straight line
+    radius: 1.5           # centered in 'center_x' and 'center_y' with 
+    step: 0.1              # 'separation' meters between them. You can choose
+
+  random_area:
+    min_x: -0.5             # If selected, this option will spawn 'num_of_robots'
+    max_x: 0.5             # robots evenly distributed in a straight line
+    min_y: -0.5           # centered in 'center_x' and 'center_y' with 
+    max_y: 0.5

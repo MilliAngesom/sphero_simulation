@@ -8,6 +8,10 @@ import yaml
 import roslaunch
 import rospy
 import rospkg
+import random
+import math
+
+
 
 def distribute_circle(k, n, center_x=0, center_y=0, radius=1):
     x = radius * math.cos(k / n * 2 * math.pi) + center_x
@@ -22,6 +26,27 @@ def distribute_line(k, n, center_x=0, center_y=0, separation=0.5, direction='hor
         x = center_x
         y = center_y + (k - (n - 1) // 2) * separation
     return x, y
+
+def distribute_grid(k, n, rows=3, cols=3, center_x=0, center_y=0, separation=1.0):
+    row = k // cols
+    col = k % cols
+    x = center_x + col * separation
+    y = center_y + row * separation
+    return x, y
+
+def distribute_spiral(k, n, center_x=0, center_y=0, radius=1, step=0.1):
+    angle = k * step
+    x = radius * angle * math.cos(angle) + center_x
+    y = radius * angle * math.sin(angle) + center_y
+    return x, y
+
+def distribute_random(k, n, min_x=-1, max_x=1, min_y=-1, max_y=1):
+    x = random.uniform(min_x, max_x)
+    y = random.uniform(min_y, max_y)
+    return x, y
+
+
+
 
 def create_files(resources, config):
     map_name = config['map_name']
@@ -46,7 +71,13 @@ def create_files(resources, config):
                 x, y = distribute_circle(k, num_of_robots, **params)
             elif distribution == 'line':
                 x, y = distribute_line(k, num_of_robots, **params)
-            args = {'x': x, 'y': y, 'k': k, 'color': 'blue'}
+            elif distribution == 'grid':
+                x, y = distribute_grid(k, num_of_robots, **params)
+            elif distribution == 'spiral':
+                x, y = distribute_spiral(k, num_of_robots, **params)
+            elif distribution == 'random_area':
+                x, y = distribute_random(k, num_of_robots, **params)
+            args = {'x': x, 'y': y, 'k': k, 'color': 'red'} # 'color': 'blue'  color of the robot
             output.write(proto_line.format(**args))
 
     return True
@@ -98,12 +129,3 @@ if __name__ == '__main__':
     print("\033[36m \nInitialized launcher node. Starting launch process. \033[0m")
 
     main()
-
-
-
-
-
-
-
-
-
